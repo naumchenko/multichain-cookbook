@@ -1,0 +1,46 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+  always_update_cookbooks: true
+  chef_log_level: debug
+verifier:
+  name: inspec
+platforms:
+  - name: ubuntu-16.04
+suites:
+  - name: server
+    driver:
+      vm_hostname: server.localdomain
+      network:
+        - ["private_network", {ip: "33.33.33.10"}]
+    run_list:
+      - recipe[multichain::default]
+    verifier:
+      inspec_tests:
+        - test/smoke/default
+    attributes:
+      multichain:
+        role: "server"
+  - name: node-1
+    driver:
+      vm_hostname: node-1.localdomain
+      network:
+        - ["private_network", {ip: "33.33.33.11"}]
+    run_list:
+      - recipe[multichain::default]
+    attributes:
+      multichain:
+        server_ip: "33.33.33.10"
+  - name: node-2
+    driver:
+      vm_hostname: node-2.localdomain
+      network:
+        - ["private_network", {ip: "33.33.33.12"}]
+    run_list:
+      - recipe[multichain::default]
+    attributes:
+      multichain:
+        server_ip: "33.33.33.10"
