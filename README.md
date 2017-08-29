@@ -1,4 +1,3 @@
-# multichain
+# Multichain Cookbook
 
-TODO: Enter the cookbook description here.
-
+Multichain: platform for private blockchains, key-value, assets, databases on a blockchain.
